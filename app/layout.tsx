@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
-
+import { Header } from "./components/Header";
+import styles from './app.module.scss'
+import './global.scss'
 export const metadata: Metadata = {
-  title: "Gran App",
-  description: "Granboard FunMade App",
+  title: "Darts",
+  description: "Darts app",
 };
 
 export default function RootLayout({
@@ -16,7 +14,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+      </head>
+      <body>
+        <Header />
+        <main className={styles.main}>
+          {children}
+        </main>
+      </body>
     </html>
   );
 }

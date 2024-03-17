@@ -1,0 +1,48 @@
+.title {
+  margin-bottom: 1rem;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+}
+
+.value {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+}
+
+.success i {
+  font-size: 1.5rem;
+  color: green;
+}
+
+.warning i {
+  font-size: 1.5rem;
+  color: orange;
+}
+
+.error i {
+  font-size: 1.5rem;
+  color: red;
+}
+
+.button {
+  padding: 0.5rem;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+  border-radius: 4px;
+  background-color: blue;
+}

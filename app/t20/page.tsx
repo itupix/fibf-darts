@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from './t20.module.scss'
-import { useGranboard } from "../useGranboard";
+import { GranboardContext } from "../contexts/granboard";
 
 const t20 = () => {
-  const { segment, simulateSuccessHit, simulateFailHit } = useGranboard()
+  const { segment, simulateSuccessHit, simulateFailHit } = useContext(GranboardContext)
   const [gameStatus, setGameStatus] = useState("stopped")
   const [attempts, setAttempts] = useState<string[]>([])
 
@@ -37,8 +37,8 @@ const t20 = () => {
   }, [attempts])
 
   return (<div className={styles.container}>
-    {/* <button onClick={cheat}>Cheat</button>
-    <button onClick={fail}>fail</button> */}
+    <button onClick={cheat}>Cheat</button>
+    <button onClick={fail}>fail</button>
     {{
       win: <><h1>Gagné !</h1><button onClick={startGame}>Recommencer</button></>,
       lose: <><h1>Perdu !</h1><button onClick={startGame}>Recommencer</button></>,
@@ -49,6 +49,11 @@ const t20 = () => {
         <span className={styles[attempts[2]]}><i className='bx bxs-circle'></i></span>
       </div>
     }[gameStatus]}
+    {segment && (
+      <div>
+        {segment.ID}
+      </div>
+    )}
   </div>)
 }
 

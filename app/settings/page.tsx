@@ -1,9 +1,10 @@
 "use client";
-import { useGranboard } from "../useGranboard"
+import { useContext } from "react";
 import styles from './settings.module.scss'
+import { GranboardContext } from "../contexts/granboard";
 
 export default function Page() {
-  const { connectionState, onConnectionTest } = useGranboard()
+  const { connectionState, onConnectionTest } = useContext(GranboardContext)
 
   return (
     <section>

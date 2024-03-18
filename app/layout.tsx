@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Header } from "./components/Header";
-import styles from './app.module.scss'
 import './global.scss'
+import { Content } from "./components/Content";
+
 export const metadata: Metadata = {
   title: "Darts",
   description: "Darts app",
@@ -18,10 +18,7 @@ export default function RootLayout({
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
       </head>
       <body>
-        <Header />
-        <main className={styles.main}>
-          {children}
-        </main>
+        <Content>{children}</Content>
       </body>
     </html>
   );

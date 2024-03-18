@@ -57,6 +57,7 @@ export const useGranboard = () => {
   }
 
   return {
+    granboard,
     simulateSuccessHit,
     simulateFailHit,
     segment,

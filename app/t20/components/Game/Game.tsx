@@ -23,7 +23,7 @@ const initCurrentLeg = (game: GameType, max: number) => game.playersUuid.reduce(
 }, {})
 
 export const Game: FC<Props> = ({ game }) => {
-  const legMax = 5
+  const legMax = 3
   const { setGame } = useContext(GameContext)
   const { simulateSuccessHit, simulateFailHit } = useContext(GranboardContext)
   const { players } = useContext(PlayersContext)

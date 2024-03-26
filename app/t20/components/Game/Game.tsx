@@ -1,8 +1,8 @@
 "use client";
 import { useContext, useEffect, useState, type FC } from "react";
-import { GameContext, GameType, Shot } from "../../contexts/game";
-import { GranboardContext } from "../../contexts/granboard";
-import { PlayersContext } from "../../contexts/players";
+import { GameContext, GameType, Shot } from "../../../contexts/game";
+import { GranboardContext } from "../../../contexts/granboard";
+import { PlayersContext } from "../../../contexts/players";
 import styles from './Game.module.scss';
 
 interface Props {

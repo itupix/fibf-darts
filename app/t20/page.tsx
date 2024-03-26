@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import { Players } from "../components/Players";
 import { GameContext } from "../contexts/game";
-import { Game } from "./Game";
+import { Game } from "./components/Game";
 
 const t20 = () => {
   const { game, initGame } = useContext(GameContext)

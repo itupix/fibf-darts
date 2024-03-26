@@ -33,10 +33,10 @@ export default function Page() {
           }[connectionState]}
         </span>
       </div>
-      <div className={styles.field}>
+      {/* <div className={styles.field}>
         <span className={styles.label}>Votre pseudo</span>
         <span className={styles.value}><input type="text" value={profile?.name} onChange={onNameChange} /></span>
-      </div>
+      </div> */}
     </section>
   )
 }

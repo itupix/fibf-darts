@@ -1,3 +1,4 @@
+"use client";
 import { SegmentID } from "@/services/boardinfo";
 import { createContext } from "react";
 

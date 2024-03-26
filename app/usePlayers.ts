@@ -1,8 +1,9 @@
+"use client"
 import { useEffect, useState } from "react";
 import { PlayerType } from "./contexts/players";
 
 const getPlayersFromLocalStorage = () => {
-  const data = localStorage.getItem('players')
+  const data = typeof window !== 'undefined' ? localStorage.getItem('players') : null
   if (data) return JSON.parse(data)
   return []
 }
@@ -11,7 +12,7 @@ export const usePlayers = () => {
   const [players, setPlayers] = useState<PlayerType[]>(getPlayersFromLocalStorage())
 
   useEffect(() => {
-    if (players) localStorage.setItem('players', JSON.stringify(players))
+    if (players && typeof window !== 'undefined') localStorage.setItem('players', JSON.stringify(players))
   }, [players])
 
   return {

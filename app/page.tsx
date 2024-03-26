@@ -1,8 +1,16 @@
 "use client";
 import Link from "next/link";
 import styles from './app.module.scss'
+import { useContext, useEffect } from "react";
+import { GameContext } from "./contexts/game";
 
 export default function Home() {
+  const { setGame } = useContext(GameContext)
+
+  useEffect(() => {
+    setGame(null)
+  }, [])
+
   return (
     <>
       <Link href="/t20" className={styles.game}>

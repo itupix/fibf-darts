@@ -1,9 +1,12 @@
 "use client";
 import { Segment } from "@/services/boardinfo";
 import { Granboard } from "@/services/granboard";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { GameContext, type Shot } from "./contexts/game";
+import { v4 as uuidv4 } from 'uuid'
 
 export const useGranboard = () => {
+  const { game, setGame } = useContext(GameContext)
   const [granboard, setGranboard] = useState<Granboard>();
   const [segment, setSegment] = useState<Segment>();
   const [connectionState, setConnectionState] = useState<

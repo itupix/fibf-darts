@@ -13,6 +13,10 @@ export default function Home() {
 
   return (
     <>
+      <Link href="/cricket" className={styles.game}>
+        <h2>Cricket</h2>
+        <p>Le classique.</p>
+      </Link>
       <Link href="/t20" className={styles.game}>
         <h2>Triple 20</h2>
         <p>Le but est de taper trois fois le triple 20 en trois coups.</p>

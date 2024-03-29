@@ -1,12 +1,12 @@
 "use client";
-import { SegmentID } from "@/services/boardinfo";
+import { Segment } from "@/services/boardinfo";
 import { createContext } from "react";
 
 export type Shot = {
   uuid: string
   playerUuid: string
   time: string
-  segment: SegmentID
+  segment: Segment
 }
 
 export type GameType = {

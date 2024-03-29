@@ -1,0 +1,92 @@
+.table {
+  width: 100%;
+
+  td {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  tr:nth-child(odd) {
+    background-color: #eee;
+  }
+}
+
+.target {
+  width: 5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+$targetColor: #333;
+
+.empty {
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+
+  &:before,
+  &:after {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2rem;
+    height: 2px;
+    background-color: $targetColor;
+  }
+}
+
+.single {
+  @extend .empty;
+
+  &:before {
+    content: '';
+    transform: translate(-50%, -50%) rotateZ(-45deg);
+  }
+}
+
+.double {
+  @extend .single;
+
+  &:after {
+    content: '';
+    transform: translate(-50%, -50%) rotateZ(45deg)
+  }
+}
+
+.triple {
+  @extend .double;
+  border-radius: 50%;
+  border: 2px solid $targetColor;
+}
+
+.cheatMode {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.closed {
+  color: rgba(0, 0, 0, 0.2);
+
+  .empty {
+    opacity: 0.2
+  }
+}
+
+.current {
+  font-weight: bold;
+}

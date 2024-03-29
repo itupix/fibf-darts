@@ -49,11 +49,11 @@ export const useGranboard = () => {
 
   const simulateFailHit = () => {
     const newSegment: Segment = {
-      Type: 2,
-      Value: 40,
-      ShortName: 'D20',
+      Type: 1,
+      Value: 20,
+      ShortName: 'S20',
       ID: 79,
-      LongName: 'Double 20',
+      LongName: 'Simple 20',
       Section: 20,
     }
     setSegment(newSegment)

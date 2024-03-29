@@ -32,7 +32,7 @@ export const Content: FC<Props> = ({ children }) => {
             playerUuid: gameContext.game.currentPlayerUuid,
             uuid: v4(),
             time: String(new Date()),
-            segment: targetContext.segment.ID,
+            segment: targetContext.segment,
           } as Shot
         ]
       })

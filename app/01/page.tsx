@@ -8,7 +8,7 @@ import { Settings } from "./components/Settings";
 
 const Game01 = () => {
   const { game, initGame, setGame } = useContext(GameContext)
-  const [settings, setSettings] = useState()
+  const [settings, setSettings] = useState({})
 
   const handleGameStart = () => {
     initGame('01')

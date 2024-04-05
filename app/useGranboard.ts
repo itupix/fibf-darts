@@ -59,8 +59,21 @@ export const useGranboard = () => {
     setSegment(newSegment)
   }
 
+  const simulateHit = (type: number, section: number) => {
+    const newSegment: Segment = {
+      Type: type,
+      Value: 20,
+      ShortName: 'Test',
+      ID: 1,
+      LongName: 'Test',
+      Section: section,
+    }
+    setSegment(newSegment)
+  }
+
   return {
     granboard,
+    simulateHit,
     simulateSuccessHit,
     simulateFailHit,
     segment,

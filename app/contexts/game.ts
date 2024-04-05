@@ -15,7 +15,8 @@ export type GameType = {
   history: Shot[]
   currentPlayerUuid: string,
   playersUuid: string[],
-  winnerUuid?: string
+  winnerUuid?: string,
+  settings?: Record<string, unknown>
 }
 
 export type GameContextType = {

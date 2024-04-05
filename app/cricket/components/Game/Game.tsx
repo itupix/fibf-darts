@@ -1,16 +1,16 @@
 "use client"
+import { CheatBar } from '@/app/components/CheatBar'
 import { GameContext, type GameType } from '@/app/contexts/game'
 import { PlayersContext } from '@/app/contexts/players'
+import { useCurrentLeg } from '@/app/useCurrentLeg'
 import { useContext, useEffect, useState, type FC } from 'react'
 import styles from './Game.module.scss'
-import { GranboardContext } from '@/app/contexts/granboard'
-import { useCurrentLeg } from '@/app/useCurrentLeg'
 
 interface Props {
   game: GameType
 }
 
-type Target = '20' | '19' | '18' | '17' | '16' | '15' | 'bull'
+type Target = '20' | '19' | '18' | '17' | '16' | '15' | '25'
 type Progress = Record<Target, number>
 type PlayerUuid = string
 type PlayerOverview = {
@@ -20,7 +20,7 @@ type PlayerOverview = {
 
 type Overview = Record<PlayerUuid, PlayerOverview>
 
-const targets: Target[] = ['20', '19', '18', '17', '16', '15', 'bull']
+const targets: Target[] = ['20', '19', '18', '17', '16', '15', '25']
 const progressStates = ['empty', 'single', 'double', 'triple']
 
 const initOverview = (game: GameType) => {
@@ -51,7 +51,6 @@ const getNextPlayer = (game: GameType) => {
 export const Game: FC<Props> = ({ game }) => {
   const legMax = 3
   const roundMax = 20
-  const { simulateSuccessHit, simulateFailHit } = useContext(GranboardContext)
   const { setGame } = useContext(GameContext)
   const { players } = useContext(PlayersContext)
   const { currentLeg } = useCurrentLeg(game, legMax)
@@ -79,7 +78,7 @@ export const Game: FC<Props> = ({ game }) => {
       if (!closedTargets.includes(target)) {
         if (currentProgressForTarget === 3) {
           newScore += lastShot.segment.Type * lastShot.segment.Section
-        } else if (currentProgressForTarget + lastShot.segment.Type >= 3) {
+        } else if (currentProgressForTarget + lastShot.segment.Type > 3) {
           newScore = ((currentProgressForTarget + lastShot.segment.Type) - 3) * lastShot.segment.Section
         }
       }
@@ -109,14 +108,22 @@ export const Game: FC<Props> = ({ game }) => {
   }, [currentLeg])
 
   useEffect(() => {
-    if (closedTargets.length === targets.length || round === roundMax + 1) {
+    const winner = Object.keys(overview).reduce((acc: string[], curr) => {
+      const isWinner = Object.keys(overview[curr].progress).filter(target => overview[curr].progress[target as Target] === 3)?.length === targets.length
+      if (isWinner) {
+        acc.push(curr)
+      }
+      return acc
+    }, [] as string[])
+
+    if (winner.length || round === roundMax + 1) {
       const chart = Object.keys(overview).sort((a, b) => overview[a].score - overview[b].score)
       setGame({
         ...game,
         winnerUuid: chart[0]
       })
     }
-  }, [closedTargets])
+  }, [closedTargets, round])
 
   // Gets the closed targets
   useEffect(() => {
@@ -141,28 +148,35 @@ export const Game: FC<Props> = ({ game }) => {
 
   return <div className={styles.container}>
     <table className={styles.table}>
+      <tr>
+        <td></td>
+        {game.playersUuid.map((uuid) => (
+          <td>
+            <div className={uuid === game.currentPlayerUuid ? styles.currentName : styles.name}>
+              <i className='bx bxs-right-arrow'></i>
+              <span>{players.find((player) => uuid === player.uuid)?.name}</span>
+              <i className='bx bxs-left-arrow'></i>
+            </div>
+          </td>))}
+        <td></td>
+      </tr>
       {targets.map((target) => (
         <tr className={closedTargets?.includes(target) ? styles.closed : ''}>
-          <td className={styles.target}>{target}</td>
-          {game.playersUuid.map((uuid) => <td><div className={styles.progress}><div className={styles[progressStates[overview[uuid].progress[target]]]} /></div></td>)}
+          <td className={styles.target}>{target === '25' ? 'Bull' : target}</td>
+          {game.playersUuid.map((uuid) => <td style={{ width: `${100 / game.playersUuid.length}%` }}><div className={styles.progress}><div className={styles[progressStates[overview[uuid].progress[target]]]} /></div></td>)}
+          <td className={styles.target}>{target === '25' ? 'Bull' : target}</td>
         </tr>
       ))}
       <tr>
         <td></td>
         {game.playersUuid.map((uuid) => (
           <td>
-            <div className={styles.score}>
-              <span className={uuid === game.currentPlayerUuid ? styles.current : ''}>{players.find((player) => uuid === player.uuid)?.name}</span>
-              <span>{overview[uuid].score}</span>
-            </div>
+            <span className={styles.score} style={{ backgroundColor: uuid === game.currentPlayerUuid ? players.find((player) => uuid === player.uuid)?.color : '#ccc' }}>{overview[uuid].score}</span>
           </td>
         ))}
+        <td></td>
       </tr>
     </table>
-    <div className={styles.cheatMode}>
-      <button onClick={simulateSuccessHit}>Cheat</button>
-      <button onClick={simulateFailHit}>fail</button>
-      <span>Round: {round}</span>
-    </div>
+    <CheatBar />
   </div>
 }

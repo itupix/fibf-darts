@@ -8,6 +8,14 @@ export default function Home() {
   const { setGame } = useContext(GameContext)
 
   useEffect(() => {
+    if ("wakeLock" in navigator) {
+      try {
+        navigator.wakeLock.request("screen");
+      } catch (err) {
+        console.error('Wake lock inactive')
+      }
+    }
+
     setGame(null)
   }, [])
 
@@ -16,6 +24,10 @@ export default function Home() {
       <Link href="/cricket" className={styles.game}>
         <h2>Cricket</h2>
         <p>Le classique.</p>
+      </Link>
+      <Link href="/01" className={styles.game}>
+        <h2>01</h2>
+        <p>Le jeux le plus populaire avec ses variantes: 301, 501 etc.</p>
       </Link>
       <Link href="/t20" className={styles.game}>
         <h2>Triple 20</h2>

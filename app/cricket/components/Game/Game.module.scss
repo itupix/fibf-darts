@@ -1,27 +1,22 @@
 .table {
   width: 100%;
+  max-width: 80vw;
+  margin: 0 auto;
 
   td {
     padding: 1rem;
     text-align: center;
   }
 
-  tr:nth-child(odd) {
+  tr:nth-child(even) {
     background-color: #eee;
   }
 }
 
 .target {
   width: 5rem;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
-}
-
-.score {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .progress {
@@ -89,4 +84,43 @@ $targetColor: #333;
 
 .current {
   font-weight: bold;
+}
+
+.score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  padding: 0.5rem 1rem;
+  height: 50px;
+  font-size: 1.5rem;
+  color: #fff;
+  border-radius: 32px;
+  background-color: #eee;
+}
+
+.currentScore {
+  @extend .score;
+}
+
+.name {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+
+  i {
+    display: none;
+
+  }
+}
+
+.currentName {
+  @extend .name;
+  opacity: 1;
+
+  i {
+    display: block
+  }
 }

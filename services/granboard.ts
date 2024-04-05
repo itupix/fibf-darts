@@ -137,6 +137,7 @@ export class Granboard {
   }
 
   private onSegmentHit() {
+    console.log({ event: this.bluetoothConnection.value })
     if (!this.bluetoothConnection.value) {
       return; // There is no new value
     }

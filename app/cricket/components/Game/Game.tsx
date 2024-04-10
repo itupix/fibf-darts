@@ -5,6 +5,8 @@ import { PlayersContext } from '@/app/contexts/players'
 import { useCurrentLeg } from '@/app/useCurrentLeg'
 import { useContext, useEffect, useState, type FC } from 'react'
 import styles from './Game.module.scss'
+import { GranboardContext } from '@/app/contexts/granboard'
+import Link from 'next/link'
 
 interface Props {
   game: GameType
@@ -53,10 +55,25 @@ export const Game: FC<Props> = ({ game }) => {
   const roundMax = 20
   const { setGame } = useContext(GameContext)
   const { players } = useContext(PlayersContext)
+  const { segment, connectionState, onConnectionTest } = useContext(GranboardContext)
   const { currentLeg } = useCurrentLeg(game, legMax)
   const [overview, setOverview] = useState<Overview>(initOverview(game))
   const [closedTargets, setClosedTargets] = useState<Target[]>([])
   const [round, setRound] = useState<number>(0)
+  const [canReset, setCanReset] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (segment && segment.ShortName === 'RST' && canReset) {
+      setCanReset(false)
+      setGame({
+        ...game,
+        currentPlayerUuid: getNextPlayer(game)
+      })
+      setTimeout(() => {
+        setCanReset(true)
+      }, 10000)
+    }
+  }, [segment])
 
   useEffect(() => {
     if (game.playersUuid.indexOf(game.currentPlayerUuid) === 0) {
@@ -147,6 +164,18 @@ export const Game: FC<Props> = ({ game }) => {
   }
 
   return <div className={styles.container}>
+    <div className={styles.sidebar}>
+      <div className={styles.round}>
+        <span className={styles.roundTitle}>Round</span>
+        <span className={styles.roundCount}>{round}<small>/{roundMax}</small></span>
+      </div>
+      <div>
+        <button onClick={onConnectionTest} className={connectionState === 'connected' ? styles.buttonReady : styles.buttonError}>
+          <i className='bx bx-target-lock' ></i>
+        </button>
+        <Link href="/" className={styles.button}><i className='bx bx-exit'></i></Link>
+      </div>
+    </div>
     <table className={styles.table}>
       <tr>
         <td></td>
@@ -162,21 +191,36 @@ export const Game: FC<Props> = ({ game }) => {
       </tr>
       {targets.map((target) => (
         <tr className={closedTargets?.includes(target) ? styles.closed : ''}>
-          <td className={styles.target}>{target === '25' ? 'Bull' : target}</td>
-          {game.playersUuid.map((uuid) => <td style={{ width: `${100 / game.playersUuid.length}%` }}><div className={styles.progress}><div className={styles[progressStates[overview[uuid].progress[target]]]} /></div></td>)}
-          <td className={styles.target}>{target === '25' ? 'Bull' : target}</td>
+          <td><div className={styles.target}>{target === '25' ? 'Bull' : target}</div></td>
+          {game.playersUuid.map((uuid) => (
+            <td style={{ width: `${100 / game.playersUuid.length}%` }}>
+              <div className={styles.progress}>
+                <div className={styles[progressStates[overview[uuid].progress[target]]]} />
+              </div>
+            </td>))}
+          <td><div className={styles.target}>{target === '25' ? 'Bull' : target}</div></td>
         </tr>
       ))}
       <tr>
         <td></td>
         {game.playersUuid.map((uuid) => (
           <td>
-            <span className={styles.score} style={{ backgroundColor: uuid === game.currentPlayerUuid ? players.find((player) => uuid === player.uuid)?.color : '#ccc' }}>{overview[uuid].score}</span>
+            <span className={styles.score} style={{ backgroundColor: uuid === game.currentPlayerUuid ? players.find((player) => uuid === player.uuid)?.color : '#ccc' }}>
+              <span>
+                {overview[uuid].score}
+              </span>
+              {uuid === game.currentPlayerUuid && (
+                <div className={styles.leg}>
+                  {currentLeg[uuid].map((shot) => <span>{shot?.segment.ShortName}</span>)}
+                </div>
+              )}
+
+            </span>
           </td>
         ))}
         <td></td>
       </tr>
     </table>
-    <CheatBar />
+    {/* <CheatBar /> */}
   </div>
 }

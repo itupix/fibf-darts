@@ -23,7 +23,8 @@ export const Content: FC<Props> = ({ children }) => {
   const playersContext = usePlayers()
 
   useEffect(() => {
-    if (targetContext.segment && gameContext.game) {
+    if (targetContext.segment && targetContext.segment.ShortName !== 'RST' && gameContext.game) {
+      console.log({ segment: targetContext.segment })
       gameContext.setGame({
         ...gameContext.game,
         history: [
@@ -44,7 +45,9 @@ export const Content: FC<Props> = ({ children }) => {
       <GameContext.Provider value={gameContext}>
         <GranboardContext.Provider value={targetContext}>
           <PlayersContext.Provider value={playersContext}>
-            <Header />
+            {!gameContext.game?.uuid && (
+              <Header />
+            )}
             <main className={styles.main}>
               {children}
             </main>

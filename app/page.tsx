@@ -20,23 +20,19 @@ export default function Home() {
   }, [])
 
   return (
-    <>
+    <div className={styles.container}>
       <Link href="/cricket" className={styles.game}>
         <h2>Cricket</h2>
-        <p>Le classique.</p>
+        <p>Marquez et fermez certaines cases en visant stratégiquement.</p>
       </Link>
       {/* <Link href="/01" className={styles.game}>
         <h2>01</h2>
         <p>Le jeux le plus populaire avec ses variantes: 301, 501 etc.</p>
       </Link> */}
-      <Link href="/t20" className={styles.game}>
-        <h2>Triple 20</h2>
-        <p>Le but est de taper trois fois le triple 20 en trois coups.</p>
-      </Link>
       <Link href="/practice" className={styles.game}>
         <h2>Entrainement</h2>
         <p>Enchaînez les coups sans adversaire ni règle.</p>
       </Link>
-    </>
+    </div>
   );
 }

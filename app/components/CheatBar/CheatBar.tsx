@@ -1,5 +1,6 @@
 import { GranboardContext } from "@/app/contexts/granboard"
 import { useContext, useState } from "react"
+import styles from './CheatBar.module.scss';
 
 export const CheatBar = () => {
   const { simulateHit } = useContext(GranboardContext)
@@ -20,7 +21,7 @@ export const CheatBar = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={styles.container}>
       <select onChange={handleTypeChange} value={type}>
         <option value={1}>Simple</option>
         <option value={2}>Double</option>
